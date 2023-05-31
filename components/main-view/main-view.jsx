@@ -1,41 +1,29 @@
-import { useState } from "react";
+// import necessary dependencies
+import { useEffect, useState } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 
+// internal data of component (For storing data and making API calls)
 export const MainView = () => {
-  const [movie, setMovies] = useState([
-    {
-      id: 1,
-      title: "Little Mermaid",
-      description:
-        "A young mermaid dreams of becoming human after falling in love with a prince she saves from drowning.",
-      genre: ["Fantasy", "Romance", "Musical"],
-      director: "Rob Marshall",
-      poster_url:
-        "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/the-little-mermaid_rlpetcye_480x.progressive.jpg?v=1681237061",
-    },
-    {
-      id: 2,
-      title: "Godzilla",
-      description:
-        "A colossal creature, awakened by nuclear radiation, wreaks havoc on humanity as it battles other monstrous creatures for supremacy.",
-      genre: ["Action", "Science Fiction"],
-      director: "Gareth Edwards",
-      poster_url:
-        "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/d474a8c08e6712380d223782f38f1dca_a7b93d73-1f47-45c2-a443-bfd6a7713e2b_480x.progressive.jpg?v=1573593675",
-    },
-    {
-      id: 3,
-      title: "Pirates of the Caribbean",
-      description:
-        "Captain Jack Sparrow embarks on thrilling adventures across the high seas, encountering supernatural foes, cursed treasures, and swashbuckling pirates.",
-      genre: ["Action", "Adventure", "Fantasy"],
-      director: "Gore Verbinski",
-      poster_url:
-        "https://cdn.shopify.com/s/files/1/0057/3728/3618/products/c9d5fb11c495e731413c16f8ad6838e0_adc81f87-ccdf-4f98-8b7f-cdaa8884f515_480x.progressive.jpg?v=1573585499",
-    },
-  ]);
-
+  const [movie, setMovies] = useState([]);
+  useEffect(() => {
+    fetch("https://myflix-movies-api.herokuapp.com/movies/")
+      .then((response) => response.json())
+      .then((data) => {
+        const moviesFromApi = data.map((movie) => {
+          return {
+            id: movie._id,
+            title: movie.title,
+            image: movie.image_path,
+            director: movie.director.name,
+            genre: movie.genre.name,
+            description: movie.description,
+          };
+        });
+        setMovies(moviesFromApi);
+      });
+  }, []);
+  // setting up the resting state as null until a movie is selected and displayed using the imported MovieView
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   if (selectedMovie) {
@@ -49,14 +37,16 @@ export const MainView = () => {
   if (movie.length === 0) {
     return <div>Movie list is empty!</div>;
   }
-
+  // looping through the array of movies and return object based on imported MovieCard
   return (
     <div>
       {movie.map((movie) => (
         <MovieCard
           key={movie.id}
           movie={movie}
+          //store the value of the movie click in newSelectedMovie
           onMovieClick={(newSelectedMovie) => {
+            // set the value of setSelectedMovies as the newSelectedMovie
             setSelectedMovie(newSelectedMovie);
           }}
         />
