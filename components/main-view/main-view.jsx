@@ -46,7 +46,7 @@ export const MainView = () => {
 
   return (
     <>
-      <Row className="justify-content-md-center">
+      <Row className="justify-content-md-center text">
         {!user ? (
           <Col md={5}>
             <LoginView onLoggedIn={(user) => setUser(user)} />
@@ -64,7 +64,7 @@ export const MainView = () => {
         ) : (
           <>
             {movie.map((movie) => (
-              <Col key={movie.id} md={3} className="mb-5">
+              <Col key={movie.id} md={3} className="mb-5 text">
                 <MovieCard
                   // key={movie.id}
                   movie={movie}

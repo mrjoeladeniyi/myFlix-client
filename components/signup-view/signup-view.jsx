@@ -35,9 +35,9 @@ export const SignupView = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} className="text">
       <Form.Group>
-        <Form.Label as="h2">Create a new account</Form.Label>
+        <Form.Label as="h2">👤 Create a new account</Form.Label>
         <Form.Label>Choose a username:</Form.Label>
         <Form.Control
           type="text"
@@ -45,6 +45,7 @@ export const SignupView = () => {
           onChange={(e) => setUsername(e.target.value)}
           required
           minLength="3"
+          style={{ color: "black", backgroundColor: "azure" }}
         />
       </Form.Group>
       <Form.Group>
@@ -54,6 +55,7 @@ export const SignupView = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          style={{ color: "black", backgroundColor: "azure" }}
         />
       </Form.Group>
       <Form.Group>
@@ -63,6 +65,7 @@ export const SignupView = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          style={{ color: "black", backgroundColor: "azure" }}
         />
       </Form.Group>
       <Form.Group>
@@ -72,6 +75,8 @@ export const SignupView = () => {
           value={birthday}
           onChange={(e) => setBirthday(e.target.value)}
           required
+          placeholder="email"
+          style={{ color: "black", backgroundColor: "azure" }}
         />
       </Form.Group>
       <Button variant="primary" type="submit" className="mt-2">

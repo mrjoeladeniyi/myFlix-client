@@ -43,9 +43,9 @@ export const LoginView = ({ onLoggedIn }) => {
 
   return (
     // create form
-    <Form onSubmit={handleSubmit} className="mt-3 mb-5">
+    <Form onSubmit={handleSubmit} className="mt-3 mb-5 text">
       <Form.Group>
-        <Form.Label as="h2">Login</Form.Label>
+        <Form.Label as="h2">🔒Login</Form.Label>
         <Form.Label>Username:</Form.Label>
         <Form.Control
           type="text"
@@ -54,6 +54,7 @@ export const LoginView = ({ onLoggedIn }) => {
           required
           minLength="3"
           placeholder="Enter username"
+          style={{ color: "black", backgroundColor: "azure" }}
         />
       </Form.Group>
       <Form.Group className="mb-2">
@@ -63,6 +64,7 @@ export const LoginView = ({ onLoggedIn }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          style={{ color: "black", backgroundColor: "azure" }}
         />
       </Form.Group>
       <Button variant="primary" type="submit">

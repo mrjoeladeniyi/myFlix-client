@@ -6,7 +6,7 @@ export const MovieView = ({ movie, onBackClick }) => {
         <img src={movie.image} />
       </div>
       <div>
-        <span>Title: </span>
+        <span style={{ fontWeight: "bold" }}>Title: </span>
         <span>{movie.title}</span>
       </div>
       <div>

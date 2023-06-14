@@ -4,6 +4,15 @@ $color: steelblue;
 }
 
 $primary: rgb(46, 60, 139);
-$body-bg: rgb(255, 249, 240);
+$body-bg: rgb(34, 33, 33);
+
+$text-color: rgb(248, 237, 217);
+.text{
+    color: $text-color;
+}
+::placeholder{
+    color: wheat;
+}
+
 
 @import '~bootstrap/scss/bootstrap.scss';
