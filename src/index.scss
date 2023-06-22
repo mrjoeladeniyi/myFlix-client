@@ -4,11 +4,12 @@ $color: steelblue;
 }
 
 $primary: rgb(46, 60, 139);
-$body-bg: rgb(34, 33, 33);
+$body-bg: #2f3030;
 
-$text-color: rgb(248, 237, 217);
+$text-color: rgb(224, 224, 223);
 .text{
     color: $text-color;
+    text-overflow: ellipsis;
 }
 ::placeholder{
     color: wheat;
