@@ -15,7 +15,8 @@ img {
 }
 
 .text {
-  color: #f8edd9;
+  color: #e0e0df;
+  text-overflow: ellipsis;
 }
 
 ::placeholder {
@@ -97,8 +98,8 @@ img {
   --bs-body-line-height: 1.5;
   --bs-body-color: #212529;
   --bs-body-color-rgb: 33, 37, 41;
-  --bs-body-bg: #222121;
-  --bs-body-bg-rgb: 34, 33, 33;
+  --bs-body-bg: #2f3030;
+  --bs-body-bg-rgb: 47, 48, 48;
   --bs-emphasis-color: #000;
   --bs-emphasis-color-rgb: 0, 0, 0;
   --bs-secondary-color: #212529bf;
@@ -2647,11 +2648,11 @@ textarea.form-control-lg {
 }
 
 .form-range:focus::-webkit-slider-thumb {
-  box-shadow: 0 0 0 1px #222121, 0 0 0 .25rem #2e3c8b40;
+  box-shadow: 0 0 0 1px #2f3030, 0 0 0 .25rem #2e3c8b40;
 }
 
 .form-range:focus::-moz-range-thumb {
-  box-shadow: 0 0 0 1px #222121, 0 0 0 .25rem #2e3c8b40;
+  box-shadow: 0 0 0 1px #2f3030, 0 0 0 .25rem #2e3c8b40;
 }
 
 .form-range::-moz-focus-outer {
