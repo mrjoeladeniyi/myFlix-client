@@ -42,7 +42,6 @@ export const ProfileView = () => {
   return (
     <>
       username={user.username} email={user.email};
-      <FavoriteMoviesView />
     </>
   );
 };
