@@ -5,9 +5,9 @@ import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
-import { ProfileView } from "../profile/profile-view/profile-view";
+import { ProfileView } from "../profile-view/profile-view";
 import { Link, useParams } from "react-router-dom";
-import { ProfileUpdateView } from "../profile/profile-update-view/profile-update-view";
+
 
 // import components from Bootstrap
 import Row from "react-bootstrap/Row";
