@@ -7,12 +7,14 @@ import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { ProfileView } from "../profile/profile-view/profile-view";
 import { Link, useParams } from "react-router-dom";
+import { ProfileUpdateView } from "../profile/profile-update-view/profile-update-view";
 
 // import components from Bootstrap
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { ProfileUpdateView } from "../profile/profile-update-view/profile-update-view";
 
 // internal data of component (For storing data and making API calls)
 export const MainView = () => {
@@ -114,9 +116,27 @@ export const MainView = () => {
                 {!user ? (
                   <Navigate to="/login" replace />
                 ) : (
-                  <Col md={7} key={movie.id}>
-                    <ProfileView />
-                  </Col>
+                  <Row>
+                    <Col md={7} key={movie.id}>
+                      <ProfileView className="justify-content-md-left" />
+                    </Col>
+                  </Row>
+                )}
+              </>
+            }
+          />
+          <Route
+            path="/edit-profile"
+            element={
+              <>
+                {!user ? (
+                  <Navigate to="/login" replace />
+                ) : (
+                  <Row>
+                    <Col md={7} key={movie.id}>
+                      <ProfileUpdateView className="justify-content-md-left" />
+                    </Col>
+                  </Row>
                 )}
               </>
             }
