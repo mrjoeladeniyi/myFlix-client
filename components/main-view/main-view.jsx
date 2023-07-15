@@ -19,7 +19,7 @@ import { ProfileUpdateView } from "../profile/profile-update-view/profile-update
 // internal data of component (For storing data and making API calls)
 export const MainView = () => {
   // get user and token from local storage
-  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const storedUser = JSON.parse(localStorage.getItem("user: user"));
   const storedToken = localStorage.getItem("token");
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);

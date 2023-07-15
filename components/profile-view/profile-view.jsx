@@ -41,7 +41,7 @@ export const ProfileView = () => {
 
   return (
     <>
-      <ProfileInfoView username={user.username} email={user.email} />
+      username={user.username} email={user.email};
       <FavoriteMoviesView />
     </>
   );
