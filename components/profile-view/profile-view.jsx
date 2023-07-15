@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ProfileInfoView } from "../profile-info-view/profile-info-view";
-import { FavoriteMoviesView } from "../favorite-movies-view/favorite-movies";
 import { Container } from "react-bootstrap";
 import Row from "react-bootstrap";
 import Col from "react-bootstrap";
