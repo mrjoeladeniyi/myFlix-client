@@ -14,7 +14,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { ProfileUpdateView } from "../profile/profile-update-view/profile-update-view";
 
 // internal data of component (For storing data and making API calls)
 export const MainView = () => {
