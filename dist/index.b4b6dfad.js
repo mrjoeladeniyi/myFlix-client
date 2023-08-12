@@ -47376,6 +47376,6 @@ $RefreshReg$(_c, "ProfileView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react":"21dqq","react-router-dom":"9xmpe","react-bootstrap":"3AD9A","@parcel/transformer-js/src/esmodule-helpers.js":"t6ZWk","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gu3Wt","react/jsx-dev-runtime":"iTorj"}],"lJZlQ":[function() {},{}]},["eoVbi","dD00W","d8Dch"], "d8Dch", "parcelRequireaec4")
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","react-bootstrap":"3AD9A","@parcel/transformer-js/src/esmodule-helpers.js":"t6ZWk","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gu3Wt"}],"lJZlQ":[function() {},{}]},["eoVbi","dD00W","d8Dch"], "d8Dch", "parcelRequireaec4")
 
 //# sourceMappingURL=index.b4b6dfad.js.map
