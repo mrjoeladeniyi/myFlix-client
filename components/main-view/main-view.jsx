@@ -133,7 +133,7 @@ export const MainView = () => {
                 ) : (
                   <Row>
                     <Col md={7} key={movie.id}>
-                      <ProfileUpdateView className="justify-content-md-left" />
+                      <ProfileView className="justify-content-md-left" />
                     </Col>
                   </Row>
                 )}

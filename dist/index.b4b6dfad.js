@@ -27307,7 +27307,7 @@ const MainView = ()=>{
                                 }, void 0, false, void 0, void 0) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _rowDefault.default), {
                                     children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _colDefault.default), {
                                         md: 7,
-                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(ProfileUpdateView, {
+                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _profileView.ProfileView), {
                                             className: "justify-content-md-left"
                                         }, void 0, false, void 0, void 0)
                                     }, movie.id, false, void 0, void 0)
@@ -47167,49 +47167,206 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactRouterDom = require("react-router-dom");
 var _reactBootstrap = require("react-bootstrap");
-var _reactBootstrapDefault = parcelHelpers.interopDefault(_reactBootstrap);
 var _s = $RefreshSig$();
 const ProfileView = ()=>{
     _s();
+    // console.log(username);
     const storedUser = JSON.parse(localStorage.getItem("user"));
     const storedToken = localStorage.getItem("token");
     const [user, setUser] = (0, _react.useState)(storedUser ? storedUser : null);
     const [token, setToken] = (0, _react.useState)(storedToken ? storedToken : null);
-    (0, _react.useEffect)(()=>{
-        if (!token) return;
-        fetch("https://myflix-movies-api.herokuapp.com/users", {
+    const [username, setUsername] = (0, _react.useState)("");
+    const [password, setPassword] = (0, _react.useState)("");
+    const [email, setEmail] = (0, _react.useState)("");
+    const [birth_date, setBirthdate] = (0, _react.useState)(new Date().toISOString().split("T")[0]);
+    const [favoriteMovies, setFavoriteMovies] = (0, _react.useState)("");
+    // const data = {
+    //   username: storedUser,
+    //   token: storedToken,
+    //   email: email,
+    //   birthdate: birth_date,
+    //   favorite_movies: favoriteMovies,
+    // };
+    // fetch from apis
+    const userInfoRequest = ()=>{
+        fetch(`https://myflix-movies-api.herokuapp.com/users/`, {
+            method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`
+            },
+            "Content-type": "application/json"
+        }).then((response)=>response.json()).then((data)=>{
+            setUser(data);
+            setUsername(data.username);
+            setEmail(data.email);
+            setBirthdate(new Date(data.birth_date).toISOString().split("T")[0]);
+        }).catch((error)=>console.log(error));
+    };
+    const editProfileRequest = (event)=>{
+        const username = storedUser.username;
+        const formattedBirthdate = new Date(birth_date);
+        const token = storedToken;
+        event.preventDefault();
+        // console.log("")
+        fetch(`https://myflix-movies-api.herokuapp.com/users/${username}`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${storedToken}`
+            },
+            "Content-type": "application/json",
+            body: JSON.stringify({
+                username,
+                password,
+                email,
+                birth_date
+            })
+        }).then((response)=>{
+            console.log("user.birth_date", user.birth_date);
+            if (!response.ok) throw new Error(`HTTP error: status: ${response.status}`);
+            else {
+                localStorage.setItem("user", JSON.stringify(user));
+                alert("Profile updated successfully");
+                const storedUser = JSON.parse(localStorage.getItem("user"));
+                storedUser.username = user.username;
+                return response.json();
             }
-        }).then((response)=>response.json()).then(()=>{
-            // const usersFromApi = data.map((user) => {
-            return {
-                id: user._id,
-                username: user.username,
-                password: user.password,
-                email: user.email,
-                birthdate: user.birth_date,
-                favoriteMovies: user.favorite_movies
-            };
-        // });
-        // setUser(usersFromApi);
-        }).catch((e)=>{
-            console.log(e);
+        }).catch((error)=>{
+            console.log(error);
         });
-    }, [
-        token
-    ]);
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+    };
+    console.log("ALL STATE", username, password, email, birth_date);
+    // const deleteProfileRequest = fetch(
+    //   `https://myflix-movies-api.herokuapp.com/users/${user}`,
+    //   {
+    //     method: "DELETE",
+    //     headers: { Authorization: `Bearer ${token}` },
+    //   }
+    // );
+    console.log("DATe", new Date().toISOString().split("T")[0]);
+    console.log("birth_date", birth_date);
+    console.log("user", user);
+    console.log;
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
         children: [
-            "username=",
-            user.username,
-            " email=",
-            user.email,
-            ";"
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                children: [
+                    "Username:",
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                        type: "text",
+                        value: username,
+                        onChange: (event)=>setUsername(event.target.value)
+                    }, void 0, false, {
+                        fileName: "components/profile-view/profile-view.jsx",
+                        lineNumber: 99,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "components/profile-view/profile-view.jsx",
+                lineNumber: 97,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                children: [
+                    "Password:",
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                        type: "password",
+                        value: password,
+                        onChange: (event)=>setPassword(event.target.value)
+                    }, void 0, false, {
+                        fileName: "components/profile-view/profile-view.jsx",
+                        lineNumber: 107,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "components/profile-view/profile-view.jsx",
+                lineNumber: 105,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                children: [
+                    "Email:",
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                        type: "email",
+                        value: email,
+                        onChange: (event)=>setEmail(event.target.value)
+                    }, void 0, false, {
+                        fileName: "components/profile-view/profile-view.jsx",
+                        lineNumber: 115,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "components/profile-view/profile-view.jsx",
+                lineNumber: 113,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                children: [
+                    "Birthdate:",
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                        type: "date",
+                        value: birth_date,
+                        onChange: (event)=>setBirthdate(event.target.value)
+                    }, void 0, false, {
+                        fileName: "components/profile-view/profile-view.jsx",
+                        lineNumber: 123,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "components/profile-view/profile-view.jsx",
+                lineNumber: 121,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                type: "submit",
+                onClick: editProfileRequest,
+                children: "Update profile"
+            }, void 0, false, {
+                fileName: "components/profile-view/profile-view.jsx",
+                lineNumber: 129,
+                columnNumber: 7
+            }, undefined)
         ]
-    }, void 0, true);
+    }, void 0, true, {
+        fileName: "components/profile-view/profile-view.jsx",
+        lineNumber: 96,
+        columnNumber: 5
+    }, undefined);
+// useEffect(() => {
+//   if (!token) {
+//     return;
+//   }
+//   fetch("https://myflix-movies-api.herokuapp.com/users", {
+//     headers: { Authorization: `Bearer ${token}` },
+//   })
+//     .then((response) => response.json())
+//     .then(() => {
+//       // const usersFromApi = data.map((user) => {
+//       return {
+//         id: user._id,
+//         username: user.username,
+//         password: user.password,
+//         email: user.email,
+//         birthdate: user.birth_date,
+//         favoriteMovies: user.favorite_movies,
+//       };
+//       // });
+//       // setUser(usersFromApi);
+//     })
+//     .catch((e) => {
+//       console.log(e);
+//     });
+// }, [token]);
+// return (
+//   <>
+//     username={user.username} email={user.email};
+//   </>
+// );
 };
-_s(ProfileView, "sSDa7750AGY//8trueq2Ults7HI=");
+_s(ProfileView, "FfhzViiZcGYJlt6Rl5nyXDMF+u0=");
 _c = ProfileView;
 var _c;
 $RefreshReg$(_c, "ProfileView");
@@ -47219,6 +47376,6 @@ $RefreshReg$(_c, "ProfileView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","react-bootstrap":"3AD9A","@parcel/transformer-js/src/esmodule-helpers.js":"t6ZWk","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gu3Wt"}],"lJZlQ":[function() {},{}]},["eoVbi","dD00W","d8Dch"], "d8Dch", "parcelRequireaec4")
+},{"react":"21dqq","react-router-dom":"9xmpe","react-bootstrap":"3AD9A","@parcel/transformer-js/src/esmodule-helpers.js":"t6ZWk","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"gu3Wt","react/jsx-dev-runtime":"iTorj"}],"lJZlQ":[function() {},{}]},["eoVbi","dD00W","d8Dch"], "d8Dch", "parcelRequireaec4")
 
 //# sourceMappingURL=index.b4b6dfad.js.map
