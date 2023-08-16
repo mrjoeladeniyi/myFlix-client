@@ -3,15 +3,24 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
-export const ProfileUpdateView = () => {
-  const storedUser = JSON.parse(localStorage.getItem("user"));
-  const storedToken = localStorage.getItem("token");
+// TODO create handleEdit and handleDelete in ProfileView and pass them down as props to ProfileInfoView and ProfileDeleteView
 
-  const [user, setUser] = useState(storedUser ? storedUser : null);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [token, setToken] = useState(storedToken ? storedToken : null);
+export const ProfileUpdateView = ({
+  username,
+  email,
+  password,
+  birth_date,
+  handleEdit,
+  token,
+}) => {
+  // const storedUser = JSON.parse(localStorage.getItem("user"));
+  // const storedToken = localStorage.getItem("token");
+
+  // const [user, setUser] = useState(storedUser ? storedUser : null);
+  // const [username, setUsername] = useState("username");
+  // const [password, setPassword] = useState("password");
+  // const [email, setEmail] = useState("email");
+  // const [token, setToken] = useState(storedToken ? storedToken : null);
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -20,11 +29,11 @@ export const ProfileUpdateView = () => {
     // this prevents the default behavior of the form which is to reload the entire page
     event.preventDefault();
 
-    const data = {
-      username: username,
-      password: password,
-      email: email,
-    };
+    // const data = {
+    //   username: username,
+    //   password: password,
+    //   email: email,
+    // };
 
     fetch(`https://myflix-movies-api.herokuapp.com/users/${user}`, {
       method: "PUT",

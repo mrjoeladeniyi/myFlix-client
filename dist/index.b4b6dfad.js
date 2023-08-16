@@ -47377,26 +47377,26 @@ var _formDefault = parcelHelpers.interopDefault(_form);
 var _modal = require("react-bootstrap/Modal");
 var _modalDefault = parcelHelpers.interopDefault(_modal);
 var _s = $RefreshSig$();
-const ProfileUpdateView = ()=>{
+const ProfileUpdateView = ({ username , email , password , birth_date , handleEdit , token  })=>{
     _s();
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    const storedToken = localStorage.getItem("token");
-    const [user, setUser] = (0, _react.useState)(storedUser ? storedUser : null);
-    const [username, setUsername] = (0, _react.useState)("");
-    const [password, setPassword] = (0, _react.useState)("");
-    const [email, setEmail] = (0, _react.useState)("");
-    const [token, setToken] = (0, _react.useState)(storedToken ? storedToken : null);
+    // const storedUser = JSON.parse(localStorage.getItem("user"));
+    // const storedToken = localStorage.getItem("token");
+    // const [user, setUser] = useState(storedUser ? storedUser : null);
+    // const [username, setUsername] = useState("username");
+    // const [password, setPassword] = useState("password");
+    // const [email, setEmail] = useState("email");
+    // const [token, setToken] = useState(storedToken ? storedToken : null);
     const [show, setShow] = (0, _react.useState)(false);
     const handleClose = ()=>setShow(false);
     const handleShow = ()=>setShow(true);
     const handleSubmit = (event)=>{
         // this prevents the default behavior of the form which is to reload the entire page
         event.preventDefault();
-        const data = {
-            username: username,
-            password: password,
-            email: email
-        };
+        // const data = {
+        //   username: username,
+        //   password: password,
+        //   email: email,
+        // };
         fetch(`https://myflix-movies-api.herokuapp.com/users/${user}`, {
             method: "PUT",
             headers: {
@@ -47425,14 +47425,14 @@ const ProfileUpdateView = ()=>{
                             children: "Edit Profile"
                         }, void 0, false, {
                             fileName: "components/profile/profile-update-view/profile-update-view.jsx",
-                            lineNumber: 52,
+                            lineNumber: 61,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default).Label, {
                             children: "Username:"
                         }, void 0, false, {
                             fileName: "components/profile/profile-update-view/profile-update-view.jsx",
-                            lineNumber: 53,
+                            lineNumber: 62,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default).Control, {
@@ -47448,13 +47448,13 @@ const ProfileUpdateView = ()=>{
                             }
                         }, void 0, false, {
                             fileName: "components/profile/profile-update-view/profile-update-view.jsx",
-                            lineNumber: 54,
+                            lineNumber: 63,
                             columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "components/profile/profile-update-view/profile-update-view.jsx",
-                    lineNumber: 51,
+                    lineNumber: 60,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default).Group, {
@@ -47464,7 +47464,7 @@ const ProfileUpdateView = ()=>{
                             children: "Password:"
                         }, void 0, false, {
                             fileName: "components/profile/profile-update-view/profile-update-view.jsx",
-                            lineNumber: 65,
+                            lineNumber: 74,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default).Control, {
@@ -47478,13 +47478,13 @@ const ProfileUpdateView = ()=>{
                             }
                         }, void 0, false, {
                             fileName: "components/profile/profile-update-view/profile-update-view.jsx",
-                            lineNumber: 66,
+                            lineNumber: 75,
                             columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "components/profile/profile-update-view/profile-update-view.jsx",
-                    lineNumber: 64,
+                    lineNumber: 73,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default).Group, {
@@ -47494,7 +47494,7 @@ const ProfileUpdateView = ()=>{
                             children: "Email:"
                         }, void 0, false, {
                             fileName: "components/profile/profile-update-view/profile-update-view.jsx",
-                            lineNumber: 75,
+                            lineNumber: 84,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default).Control, {
@@ -47508,13 +47508,13 @@ const ProfileUpdateView = ()=>{
                             }
                         }, void 0, false, {
                             fileName: "components/profile/profile-update-view/profile-update-view.jsx",
-                            lineNumber: 76,
+                            lineNumber: 85,
                             columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "components/profile/profile-update-view/profile-update-view.jsx",
-                    lineNumber: 74,
+                    lineNumber: 83,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _buttonDefault.default), {
@@ -47524,18 +47524,18 @@ const ProfileUpdateView = ()=>{
                     children: "Save Changes"
                 }, void 0, false, {
                     fileName: "components/profile/profile-update-view/profile-update-view.jsx",
-                    lineNumber: 84,
+                    lineNumber: 93,
                     columnNumber: 9
                 }, undefined)
             ]
         }, void 0, true, {
             fileName: "components/profile/profile-update-view/profile-update-view.jsx",
-            lineNumber: 50,
+            lineNumber: 59,
             columnNumber: 7
         }, undefined)
     }, void 0, false);
 };
-_s(ProfileUpdateView, "V+BawciUaVcBGOGBmbyC7RifHbM=");
+_s(ProfileUpdateView, "NKb1ZOdhT+qUsWLXSgjSS2bk2C4=");
 _c = ProfileUpdateView;
 var _c;
 $RefreshReg$(_c, "ProfileUpdateView");
