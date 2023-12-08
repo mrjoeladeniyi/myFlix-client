@@ -7,42 +7,48 @@ import Row from "react-bootstrap";
 import Col from "react-bootstrap";
 
 export const ProfileView = () => {
-  const storedUser = JSON.parse(localStorage.getItem("user"));
-  const storedToken = localStorage.getItem("token");
+	const storedUser = JSON.parse(localStorage.getItem("user"));
+	const storedToken = localStorage.getItem("token");
 
-  const [user, setUser] = useState(storedUser ? storedUser : null);
-  const [token, setToken] = useState(storedToken ? storedToken : null);
+	const [user, setUser] = useState(storedUser ? storedUser : null);
+	const [token, setToken] = useState(storedToken ? storedToken : null);
 
-  useEffect(() => {
-    if (!token) {
-      return;
-    }
-    fetch("https://myflix-movies-api.herokuapp.com/users", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((response) => response.json())
-      .then(() => {
-        // const usersFromApi = data.map((user) => {
-        return {
-          id: user._id,
-          username: user.username,
-          password: user.password,
-          email: user.email,
-          birthdate: user.birth_date,
-          favoriteMovies: user.favorite_movies,
-        };
-        // });
-        // setUser(usersFromApi);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, [token]);
+	useEffect(() => {
+		if (!token) {
+			return;
+		}
+		fetch("https://myflix-movies-api.herokuapp.com/users", {
+			headers: { Authorization: `Bearer ${token}` },
+		})
+			.then((response) => response.json())
+			.then(() => {
+				// const usersFromApi = data.map((user) => {
+				return {
+					id: user._id,
+					username: user.username,
+					password: user.password,
+					email: user.email,
+					birthdate: user.birth_date,
+					favoriteMovies: user.favorite_movies,
+				};
+				// });
+				// setUser(usersFromApi);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	}, [token]);
 
-  return (
-    <>
-      <ProfileInfoView username={user.username} email={user.email} />
-      <FavoriteMoviesView />
-    </>
-  );
+	console.log(user.user.username);
+
+	return (
+		<>
+			<ProfileInfoView
+				user={user}
+				email={user.user.email}
+				username={user.user.username}
+			/>
+			<FavoriteMoviesView />
+		</>
+	);
 };
