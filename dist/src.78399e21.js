@@ -54824,83 +54824,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.MovieCard = void 0;
 var _propTypes = _interopRequireDefault(require("prop-types"));
-var _react = require("react");
 var _reactBootstrap = require("react-bootstrap");
 var _reactRouterDom = require("react-router-dom");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var MovieCard = exports.MovieCard = function MovieCard(_ref) {
-  var movie = _ref.movie,
-    token = _ref.token,
-    setUser = _ref.setUser,
-    user = _ref.user;
-  var _useState = (0, _react.useState)(false),
-    _useState2 = _slicedToArray(_useState, 2),
-    isFavoriteMovie = _useState2[0],
-    setIsFavoriteMovie = _useState2[1];
-  (0, _react.useEffect)(function () {
-    if (user.favorite_movies && user.favorite_movies.includes(movie.id)) {
-      setIsFavoriteMovie(true);
-    }
-  }, [user]);
-
-  // const AddToFavorite = (event) => {
-  // 	event.preventDefault();
-  // 	setIsFavoriteMovie(true);
-  // 	console.log(user.favorite_movies[0]);
-  // };
-
-  var AddToFavorite = function AddToFavorite() {
-    fetch("https://myflix-movies-api.herokuapp.com/users/".concat(user.username, "/").concat(movie.id), {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer ".concat(token)
-      }
-    }).then(function (response) {
-      if (response.ok) {
-        return response.json();
-      } else {
-        console.log("Failed to add fav movie");
-      }
-    }).then(function (user) {
-      if (user) {
-        alert("successfully added to favorites");
-        localStorage.setItem("user", JSON.stringify(user));
-        setUser(user);
-        setIsFavoriteMovie(true);
-      }
-    }).catch(function (error) {
-      alert(error);
-    });
-  };
-  var RemoveFavorite = function RemoveFavorite() {
-    fetch("https://myflix-movies-api.herokuapp.com/users/".concat(user.username, "/").concat(movie.id), {
-      method: "DELETE",
-      headers: {
-        Authorization: "Bearer ".concat(token)
-      }
-    }).then(function (response) {
-      if (response.ok) {
-        return response.json();
-      } else {
-        alert("Failed to delete fav movie");
-      }
-    }).then(function (user) {
-      if (user) {
-        alert("successfully deleted");
-        localStorage.setItem("user", JSON.stringify(user));
-        setUser(user);
-        setIsFavoriteMovie(false);
-      }
-    }).catch(function (error) {
-      alert(error);
-    });
-  };
+  var movie = _ref.movie;
   return /*#__PURE__*/React.createElement(_reactBootstrap.Card, {
     className: "h-100",
     style: {
@@ -54918,18 +54846,14 @@ var MovieCard = exports.MovieCard = function MovieCard(_ref) {
     to: "/movie/".concat(encodeURIComponent(movie.id))
   }, /*#__PURE__*/React.createElement(_reactBootstrap.Button, {
     variant: "primary"
-  }, "Open")), isFavoriteMovie ? /*#__PURE__*/React.createElement(_reactBootstrap.Button, {
-    onClick: RemoveFavorite
-  }, "Remove from favorite") : /*#__PURE__*/React.createElement(_reactBootstrap.Button, {
-    onClick: AddToFavorite
-  }, "Add to favorite")));
+  }, "Open"))));
 };
 MovieCard.prototype = {
   movie: _propTypes.default.shape({
     title: _propTypes.default.string
   }).isRequired
 };
-},{"prop-types":"../node_modules/prop-types/index.js","react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"prop-types":"../node_modules/prop-types/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 function getBundleURLCached() {
   if (!bundleURL) {
@@ -55079,7 +55003,7 @@ var LoginView = exports.LoginView = function LoginView(_ref) {
       console.log("Login response: ", data);
       if (data.user) {
         // local storage on browser used to store user and token to persist session
-        localStorage.setItem("user", JSON.stringify(data));
+        localStorage.setItem("user", JSON.stringify(data.user));
         localStorage.setItem("token", data.token);
         onLoggedIn(data.user, data.token);
       } else {
@@ -55302,7 +55226,6 @@ exports.ProfileUpdateView = void 0;
 var _react = require("react");
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
-var _movieCard = require("../../movie-card/movie-card");
 var _Modal = _interopRequireDefault(require("react-bootstrap/Modal"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -55314,46 +55237,24 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 // TODO create handleEdit and handleDelete in ProfileView and pass them down as props to ProfileInfoView and ProfileDeleteView
 
 var ProfileUpdateView = exports.ProfileUpdateView = function ProfileUpdateView(_ref) {
-  var user = _ref.user,
-    movies = _ref.movies,
-    setUser = _ref.setUser,
-    token = _ref.token,
-    onLoggedOut = _ref.onLoggedOut;
+  var username = _ref.username,
+    email = _ref.email,
+    password = _ref.password,
+    birth_date = _ref.birth_date,
+    handleEdit = _ref.handleEdit,
+    token = _ref.token;
   // const storedUser = JSON.parse(localStorage.getItem("user"));
   // const storedToken = localStorage.getItem("token");
 
   // const [user, setUser] = useState(storedUser ? storedUser : null);
-
-  (0, _react.useEffect)(function () {
-    if (!user && !user.user) {
-      // If user or user.user is not defined yet, return a loading state or redirect
-      return /*#__PURE__*/React.createElement("p", null, "Loading...");
-    }
-  }, [user.user]);
-  var _user$user = user.user,
-    initialUsername = _user$user.username,
-    initialEmail = _user$user.email;
-  console.log("Initial username:", initialUsername);
-  var _useState = (0, _react.useState)(initialUsername),
-    _useState2 = _slicedToArray(_useState, 2),
-    username = _useState2[0],
-    setUsername = _useState2[1];
-  var _useState3 = (0, _react.useState)(""),
-    _useState4 = _slicedToArray(_useState3, 2),
-    password = _useState4[0],
-    setPassword = _useState4[1];
-  var _useState5 = (0, _react.useState)(initialEmail),
-    _useState6 = _slicedToArray(_useState5, 2),
-    email = _useState6[0],
-    setEmail = _useState6[1];
+  // const [username, setUsername] = useState("username");
+  // const [password, setPassword] = useState("password");
+  // const [email, setEmail] = useState("email");
   // const [token, setToken] = useState(storedToken ? storedToken : null);
-  // const [name, setName] = useState(username);
-  // const [password, setPassword] = useState(user.password);
-  // const [email, setEmail] = useState(user.email);
-  // const [birthday, setBirthday] = useState(user.birthday);
-  console.log(username);
-  // console.log(user.password);
-  console.log("UserToken", token);
+  var _useState = (0, _react.useState)(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    show = _useState2[0],
+    setShow = _useState2[1];
   var handleClose = function handleClose() {
     return setShow(false);
   };
@@ -55363,54 +55264,25 @@ var ProfileUpdateView = exports.ProfileUpdateView = function ProfileUpdateView(_
   var handleSubmit = function handleSubmit(event) {
     // this prevents the default behavior of the form which is to reload the entire page
     event.preventDefault();
-    var data = {
-      username: username,
-      password: password,
-      email: email
-    };
 
-    // const handleEdit = (updatedUserData) => {
-    // 	setUser(updatedUserData);
+    // const data = {
+    //   username: username,
+    //   password: password,
+    //   email: email,
     // };
-    if (!user || !user.user) {
-      // If user or user.user is not defined yet, return a loading state or redirect
-      return /*#__PURE__*/React.createElement("p", null, "Loading...");
-    }
-    fetch("https://myflix-movies-api.herokuapp.com/users/".concat(user.user.username), {
+
+    fetch("https://myflix-movies-api.herokuapp.com/users/".concat(user), {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer ".concat(token)
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(data)
     }).then(function (response) {
-      if (response.ok) {
-        console.log(response);
-        alert("Changes Saved");
-        return response.json();
-      } else {
-        alert("Changes failed");
-      }
-    }).then(function (updatedUser) {
-      if (updatedUser) {
-        // localStorage.setItem("user", JSON.stringify(updatedUser));
-        // console.log("updatedUser", updatedUser);
-        // localStorage.setItem("token", updatedUser.token);
-
-        // console.log(updatedUser);
-        // // handleEdit(updatedUser);
-        // setUser(updatedUser);
-        // console.log(user);
-        localStorage.setItem("user", JSON.stringify(updatedUser));
-        localStorage.setItem("token", updatedUser.token);
-
-        // Update the state in the parent component using the prop function
-        setUser(updatedUser);
-        user(setUser);
-        setUsername(updatedUser.username);
-        onLoggedOut();
-        console.log("updatedUser", updatedUser);
-      }
+      console.log(response);
+      alert("Changes Saved");
+      localStorage.setItem("user", username);
+      localStorage.setItem("token", token);
+      localStorage.window.open("/");
     }).catch(function (error) {
       console.log(error);
     });
@@ -55441,7 +55313,6 @@ var ProfileUpdateView = exports.ProfileUpdateView = function ProfileUpdateView(_
     onChange: function onChange(e) {
       return setPassword(e.target.value);
     },
-    placeholder: "Enter password",
     required: true,
     style: {
       color: "black",
@@ -55466,7 +55337,7 @@ var ProfileUpdateView = exports.ProfileUpdateView = function ProfileUpdateView(_
     onClick: handleSubmit
   }, "Save Changes")));
 };
-},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","../../movie-card/movie-card":"../components/movie-card/movie-card.jsx","react-bootstrap/Modal":"../node_modules/react-bootstrap/esm/Modal.js"}],"../components/profile/profile-info-view/profile-info-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Modal":"../node_modules/react-bootstrap/esm/Modal.js"}],"../components/profile/profile-info-view/profile-info-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -55488,10 +55359,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var ProfileInfoView = exports.ProfileInfoView = function ProfileInfoView(_ref) {
-  var user = _ref.user,
-    username = _ref.username,
+  var username = _ref.username,
     email = _ref.email;
-  console.log(username);
   // const [user, setUser] = useState("user");
   // const [username] = useState("");
   // const [email] = useState("");
@@ -55632,11 +55501,9 @@ var ProfileView = exports.ProfileView = function ProfileView() {
       console.log(e);
     });
   }, [token]);
-  console.log(user.user.username);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_profileInfoView.ProfileInfoView, {
-    user: user,
-    email: user.user.email,
-    username: user.user.username
+    username: user.username,
+    email: user.email
   }), /*#__PURE__*/React.createElement(_favoriteMovies.FavoriteMoviesView, null));
 };
 },{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","../profile-info-view/profile-info-view":"../components/profile/profile-info-view/profile-info-view.jsx","../favorite-movies-view/favorite-movies":"../components/profile/favorite-movies-view/favorite-movies.jsx","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js"}],"../components/main-view/main-view.jsx":[function(require,module,exports) {
@@ -55704,8 +55571,7 @@ var MainView = exports.MainView = function MainView() {
           image: movies.image_path,
           director: movies.director.name,
           genre: movies.genre.name,
-          description: movies.description,
-          featured: movies.featured
+          description: movies.description
         };
       });
       setMovies(moviesFromApi);
@@ -55773,16 +55639,7 @@ var MainView = exports.MainView = function MainView() {
       md: 7,
       key: movie.id
     }, /*#__PURE__*/React.createElement(_profileUpdateView.ProfileUpdateView, {
-      user: user,
-      token: token,
-      movies: movie,
-      setUser: setUser,
-      className: "justify-content-md-left",
-      onLoggedOut: function onLoggedOut() {
-        setUser(null);
-        setToken(null);
-        localStorage.clear();
-      }
+      className: "justify-content-md-left"
     }))))
   }), /*#__PURE__*/React.createElement(_reactRouterDom.Route, {
     path: "/",
@@ -55797,10 +55654,7 @@ var MainView = exports.MainView = function MainView() {
         key: movie.id,
         md: 3
       }, /*#__PURE__*/React.createElement(_movieCard.MovieCard, {
-        movie: movie,
-        user: user,
-        token: token,
-        setUser: setUser
+        movie: movie
       }));
     })))
   }))))
@@ -55901,7 +55755,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50303" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50316" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
