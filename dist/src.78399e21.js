@@ -54824,11 +54824,83 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.MovieCard = void 0;
 var _propTypes = _interopRequireDefault(require("prop-types"));
+var _react = require("react");
 var _reactBootstrap = require("react-bootstrap");
 var _reactRouterDom = require("react-router-dom");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var MovieCard = exports.MovieCard = function MovieCard(_ref) {
-  var movie = _ref.movie;
+  var movie = _ref.movie,
+    token = _ref.token,
+    setUser = _ref.setUser,
+    user = _ref.user;
+  var _useState = (0, _react.useState)(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    isFavoriteMovie = _useState2[0],
+    setIsFavoriteMovie = _useState2[1];
+  (0, _react.useEffect)(function () {
+    if (user.favorite_movies && user.favorite_movies.includes(movie.id)) {
+      setIsFavoriteMovie(true);
+    }
+  }, [user]);
+
+  // const AddToFavorite = (event) => {
+  // 	event.preventDefault();
+  // 	setIsFavoriteMovie(true);
+  // 	console.log(user.favorite_movies[0]);
+  // };
+
+  var AddToFavorite = function AddToFavorite() {
+    fetch("https://myflix-movies-api.herokuapp.com/users/".concat(user.username, "/").concat(movie.id), {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer ".concat(token)
+      }
+    }).then(function (response) {
+      if (response.ok) {
+        return response.json();
+      } else {
+        console.log("Failed to add fav movie");
+      }
+    }).then(function (user) {
+      if (user) {
+        alert("successfully added to favorites");
+        localStorage.setItem("user", JSON.stringify(user));
+        setUser(user);
+        setIsFavoriteMovie(true);
+      }
+    }).catch(function (error) {
+      alert(error);
+    });
+  };
+  var RemoveFavorite = function RemoveFavorite() {
+    fetch("https://myflix-movies-api.herokuapp.com/users/".concat(user.username, "/").concat(movie.id), {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer ".concat(token)
+      }
+    }).then(function (response) {
+      if (response.ok) {
+        return response.json();
+      } else {
+        alert("Failed to delete fav movie");
+      }
+    }).then(function (user) {
+      if (user) {
+        alert("successfully deleted");
+        localStorage.setItem("user", JSON.stringify(user));
+        setUser(user);
+        setIsFavoriteMovie(false);
+      }
+    }).catch(function (error) {
+      alert(error);
+    });
+  };
   return /*#__PURE__*/React.createElement(_reactBootstrap.Card, {
     className: "h-100",
     style: {
@@ -54846,14 +54918,18 @@ var MovieCard = exports.MovieCard = function MovieCard(_ref) {
     to: "/movie/".concat(encodeURIComponent(movie.id))
   }, /*#__PURE__*/React.createElement(_reactBootstrap.Button, {
     variant: "primary"
-  }, "Open"))));
+  }, "Open")), isFavoriteMovie ? /*#__PURE__*/React.createElement(_reactBootstrap.Button, {
+    onClick: RemoveFavorite
+  }, "Remove from favorite") : /*#__PURE__*/React.createElement(_reactBootstrap.Button, {
+    onClick: AddToFavorite
+  }, "Add to favorite")));
 };
 MovieCard.prototype = {
   movie: _propTypes.default.shape({
     title: _propTypes.default.string
   }).isRequired
 };
-},{"prop-types":"../node_modules/prop-types/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"prop-types":"../node_modules/prop-types/index.js","react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 function getBundleURLCached() {
   if (!bundleURL) {
@@ -55003,7 +55079,7 @@ var LoginView = exports.LoginView = function LoginView(_ref) {
       console.log("Login response: ", data);
       if (data.user) {
         // local storage on browser used to store user and token to persist session
-        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("user", JSON.stringify(data));
         localStorage.setItem("token", data.token);
         onLoggedIn(data.user, data.token);
       } else {
@@ -55051,7 +55127,7 @@ var LoginView = exports.LoginView = function LoginView(_ref) {
     })), /*#__PURE__*/React.createElement(_Button.default, {
       variant: "primary",
       type: "submit"
-    }, "Submit"))
+    }, "Log in"))
   );
 };
 },{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js"}],"../components/signup-view/signup-view.jsx":[function(require,module,exports) {
@@ -55216,7 +55292,181 @@ var NavigationBar = exports.NavigationBar = function NavigationBar(_ref) {
     onClick: onLoggedOut
   }, "Logout"))))));
 };
-},{"react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","./img/myflix-favicon.png":"../components/navigation-bar/img/myflix-favicon.png"}],"../components/profile/profile-info-view/profile-info-view.jsx":[function(require,module,exports) {
+},{"react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","./img/myflix-favicon.png":"../components/navigation-bar/img/myflix-favicon.png"}],"../components/profile/profile-update-view/profile-update-view.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ProfileUpdateView = void 0;
+var _react = require("react");
+var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
+var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
+var _movieCard = require("../../movie-card/movie-card");
+var _Modal = _interopRequireDefault(require("react-bootstrap/Modal"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+// TODO create handleEdit and handleDelete in ProfileView and pass them down as props to ProfileInfoView and ProfileDeleteView
+
+var ProfileUpdateView = exports.ProfileUpdateView = function ProfileUpdateView(_ref) {
+  var user = _ref.user,
+    movies = _ref.movies,
+    setUser = _ref.setUser,
+    token = _ref.token,
+    onLoggedOut = _ref.onLoggedOut;
+  // const storedUser = JSON.parse(localStorage.getItem("user"));
+  // const storedToken = localStorage.getItem("token");
+
+  // const [user, setUser] = useState(storedUser ? storedUser : null);
+
+  (0, _react.useEffect)(function () {
+    if (!user && !user.user) {
+      // If user or user.user is not defined yet, return a loading state or redirect
+      return /*#__PURE__*/React.createElement("p", null, "Loading...");
+    }
+  }, [user.user]);
+  var _user$user = user.user,
+    initialUsername = _user$user.username,
+    initialEmail = _user$user.email;
+  console.log("Initial username:", initialUsername);
+  var _useState = (0, _react.useState)(initialUsername),
+    _useState2 = _slicedToArray(_useState, 2),
+    username = _useState2[0],
+    setUsername = _useState2[1];
+  var _useState3 = (0, _react.useState)(""),
+    _useState4 = _slicedToArray(_useState3, 2),
+    password = _useState4[0],
+    setPassword = _useState4[1];
+  var _useState5 = (0, _react.useState)(initialEmail),
+    _useState6 = _slicedToArray(_useState5, 2),
+    email = _useState6[0],
+    setEmail = _useState6[1];
+  // const [token, setToken] = useState(storedToken ? storedToken : null);
+  // const [name, setName] = useState(username);
+  // const [password, setPassword] = useState(user.password);
+  // const [email, setEmail] = useState(user.email);
+  // const [birthday, setBirthday] = useState(user.birthday);
+  console.log(username);
+  // console.log(user.password);
+  console.log("UserToken", token);
+  var handleClose = function handleClose() {
+    return setShow(false);
+  };
+  var handleShow = function handleShow() {
+    return setShow(true);
+  };
+  var handleSubmit = function handleSubmit(event) {
+    // this prevents the default behavior of the form which is to reload the entire page
+    event.preventDefault();
+    var data = {
+      username: username,
+      password: password,
+      email: email
+    };
+
+    // const handleEdit = (updatedUserData) => {
+    // 	setUser(updatedUserData);
+    // };
+    if (!user || !user.user) {
+      // If user or user.user is not defined yet, return a loading state or redirect
+      return /*#__PURE__*/React.createElement("p", null, "Loading...");
+    }
+    fetch("https://myflix-movies-api.herokuapp.com/users/".concat(user.user.username), {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer ".concat(token)
+      },
+      body: JSON.stringify(data)
+    }).then(function (response) {
+      if (response.ok) {
+        console.log(response);
+        alert("Changes Saved");
+        return response.json();
+      } else {
+        alert("Changes failed");
+      }
+    }).then(function (updatedUser) {
+      if (updatedUser) {
+        // localStorage.setItem("user", JSON.stringify(updatedUser));
+        // console.log("updatedUser", updatedUser);
+        // localStorage.setItem("token", updatedUser.token);
+
+        // console.log(updatedUser);
+        // // handleEdit(updatedUser);
+        // setUser(updatedUser);
+        // console.log(user);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        localStorage.setItem("token", updatedUser.token);
+
+        // Update the state in the parent component using the prop function
+        setUser(updatedUser);
+        user(setUser);
+        setUsername(updatedUser.username);
+        onLoggedOut();
+        console.log("updatedUser", updatedUser);
+      }
+    }).catch(function (error) {
+      console.log(error);
+    });
+  };
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_Form.default, {
+    onSubmit: handleSubmit,
+    className: "mt-3 mb-5 text"
+  }, /*#__PURE__*/React.createElement(_Form.default.Group, null, /*#__PURE__*/React.createElement(_Form.default.Label, {
+    as: "h2"
+  }, "Edit Profile"), /*#__PURE__*/React.createElement(_Form.default.Label, null, "Username:"), /*#__PURE__*/React.createElement(_Form.default.Control, {
+    type: "text",
+    value: username,
+    onChange: function onChange(e) {
+      return setUsername(e.target.value);
+    },
+    required: true,
+    minLength: "3",
+    placeholder: "Enter username",
+    style: {
+      color: "black",
+      backgroundColor: "azure"
+    }
+  })), /*#__PURE__*/React.createElement(_Form.default.Group, {
+    className: "mb-2"
+  }, /*#__PURE__*/React.createElement(_Form.default.Label, null, "Password:"), /*#__PURE__*/React.createElement(_Form.default.Control, {
+    type: "password",
+    value: password,
+    onChange: function onChange(e) {
+      return setPassword(e.target.value);
+    },
+    placeholder: "Enter password",
+    required: true,
+    style: {
+      color: "black",
+      backgroundColor: "azure"
+    }
+  })), /*#__PURE__*/React.createElement(_Form.default.Group, {
+    className: "mb-2"
+  }, /*#__PURE__*/React.createElement(_Form.default.Label, null, "Email:"), /*#__PURE__*/React.createElement(_Form.default.Control, {
+    type: "email",
+    value: email,
+    onChange: function onChange(e) {
+      return setEmail(e.target.value);
+    },
+    required: true,
+    style: {
+      color: "black",
+      backgroundColor: "azure"
+    }
+  })), /*#__PURE__*/React.createElement(_Button.default, {
+    variant: "primary",
+    type: "submit",
+    onClick: handleSubmit
+  }, "Save Changes")));
+};
+},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","../../movie-card/movie-card":"../components/movie-card/movie-card.jsx","react-bootstrap/Modal":"../node_modules/react-bootstrap/esm/Modal.js"}],"../components/profile/profile-info-view/profile-info-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -55227,34 +55477,105 @@ var _react = require("react");
 var _reactBootstrap = require("react-bootstrap");
 var _reactRouterDom = require("react-router-dom");
 var _propTypes = _interopRequireDefault(require("prop-types"));
+var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
+var _Modal = _interopRequireDefault(require("react-bootstrap/Modal"));
+var _profileUpdateView = require("../profile-update-view/profile-update-view");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var ProfileInfoView = exports.ProfileInfoView = function ProfileInfoView(_ref) {
-  var username = _ref.username,
+  var user = _ref.user,
+    username = _ref.username,
     email = _ref.email;
+  console.log(username);
   // const [user, setUser] = useState("user");
   // const [username] = useState("");
   // const [email] = useState("");
 
   // const userName = useParams();
   // const users = user.find((user) => m.username === userName);
+  var _useState = (0, _react.useState)(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    show = _useState2[0],
+    setShow = _useState2[1];
+  var handleClose = function handleClose() {
+    return setShow(false);
+  };
+  var handleShow = function handleShow() {
+    return setShow(true);
+  };
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_reactBootstrap.Card, {
     className: "h-100",
     style: {
-      backgroundColor: "black"
+      backgroundColor: "none",
+      border: "none"
     }
   }, /*#__PURE__*/React.createElement(_reactBootstrap.Card.Body, null, /*#__PURE__*/React.createElement(_reactBootstrap.Card.Title, {
     style: {
-      color: "wheat"
+      color: "wheat",
+      fontSize: "14px"
     }
-  }, "@", username), /*#__PURE__*/React.createElement(_reactBootstrap.Card.Text, null, email))));
+  }, "@", username), /*#__PURE__*/React.createElement(_reactBootstrap.Card.Text, {
+    style: {
+      color: "white",
+      fontSize: "12px"
+    }
+  }, email), /*#__PURE__*/React.createElement(_reactRouterDom.Link, {
+    to: "/edit-profile"
+  }, /*#__PURE__*/React.createElement(_reactBootstrap.Button, {
+    variant: "warning",
+    size: "sm",
+    onClick: handleShow
+  }, "Edit Profile"), /*#__PURE__*/React.createElement("p", null), /*#__PURE__*/React.createElement(_reactBootstrap.Button, {
+    variant: "danger",
+    size: "sm"
+  }, "Delete Profile")))));
 };
 ProfileInfoView.propTypes = {
-  user: _propTypes.default.shape({
-    username: _propTypes.default.string.isRequired,
-    email: _propTypes.default.string.isRequired
-  }).isRequired
+  username: _propTypes.default.string.isRequired,
+  email: _propTypes.default.string.isRequired
 };
-},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","prop-types":"../node_modules/prop-types/index.js"}],"../components/profile/profile-view/profile-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Modal":"../node_modules/react-bootstrap/esm/Modal.js","../profile-update-view/profile-update-view":"../components/profile/profile-update-view/profile-update-view.jsx"}],"../components/profile/favorite-movies-view/favorite-movies.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.FavoriteMoviesView = void 0;
+var _movieCard = require("../../movie-card/movie-card");
+var _react = require("react");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+var FavoriteMoviesView = exports.FavoriteMoviesView = function FavoriteMoviesView() {
+  var _useState = (0, _react.useState)([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    favoriteMovie = _useState2[0],
+    setFavoriteMovies = _useState2[1];
+  var _useState3 = (0, _react.useState)([]),
+    _useState4 = _slicedToArray(_useState3, 2),
+    movie = _useState4[0],
+    setMovies = _useState4[1];
+  var favoriteMovies = movie.filter(function (m) {
+    return user.favorite_movies.includes(m._id);
+  });
+  if (favoriteMovie.length === 0) {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, "Favorite Movie list is empty!");
+  } else {
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", null, "Favorite Movies"), /*#__PURE__*/React.createElement(_movieCard.MovieCard, {
+      key: movie.favoriteMovies,
+      movie: movie
+    }));
+  }
+};
+},{"../../movie-card/movie-card":"../components/movie-card/movie-card.jsx","react":"../node_modules/react/index.js"}],"../components/profile/profile-view/profile-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -55264,6 +55585,10 @@ exports.ProfileView = void 0;
 var _react = require("react");
 var _reactRouterDom = require("react-router-dom");
 var _profileInfoView = require("../profile-info-view/profile-info-view");
+var _favoriteMovies = require("../favorite-movies-view/favorite-movies");
+var _reactBootstrap = _interopRequireWildcard(require("react-bootstrap"));
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -55291,28 +55616,30 @@ var ProfileView = exports.ProfileView = function ProfileView() {
       }
     }).then(function (response) {
       return response.json();
-    }).then(function (data) {
-      var usersFromApi = data.map(function (user) {
-        return {
-          id: user._id,
-          username: user.username,
-          password: user.password,
-          email: user.email,
-          birthdate: user.birth_date,
-          favoriteMovies: user.favorite_movies
-        };
-      });
-      setUser(usersFromApi);
+    }).then(function () {
+      // const usersFromApi = data.map((user) => {
+      return {
+        id: user._id,
+        username: user.username,
+        password: user.password,
+        email: user.email,
+        birthdate: user.birth_date,
+        favoriteMovies: user.favorite_movies
+      };
+      // });
+      // setUser(usersFromApi);
     }).catch(function (e) {
       console.log(e);
     });
   }, [token]);
-  return /*#__PURE__*/React.createElement(_profileInfoView.ProfileInfoView, {
-    username: user.username,
-    email: user.email
-  });
+  console.log(user.user.username);
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_profileInfoView.ProfileInfoView, {
+    user: user,
+    email: user.user.email,
+    username: user.user.username
+  }), /*#__PURE__*/React.createElement(_favoriteMovies.FavoriteMoviesView, null));
 };
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","../profile-info-view/profile-info-view":"../components/profile/profile-info-view/profile-info-view.jsx"}],"../components/main-view/main-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","../profile-info-view/profile-info-view":"../components/profile/profile-info-view/profile-info-view.jsx","../favorite-movies-view/favorite-movies":"../components/profile/favorite-movies-view/favorite-movies.jsx","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js"}],"../components/main-view/main-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -55327,6 +55654,7 @@ var _signupView = require("../signup-view/signup-view");
 var _navigationBar = require("../navigation-bar/navigation-bar");
 var _profileView = require("../profile/profile-view/profile-view");
 var _reactRouterDom = require("react-router-dom");
+var _profileUpdateView = require("../profile/profile-update-view/profile-update-view");
 var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
 var _Col = _interopRequireDefault(require("react-bootstrap/Col"));
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
@@ -55376,7 +55704,8 @@ var MainView = exports.MainView = function MainView() {
           image: movies.image_path,
           director: movies.director.name,
           genre: movies.genre.name,
-          description: movies.description
+          description: movies.description,
+          featured: movies.featured
         };
       });
       setMovies(moviesFromApi);
@@ -55429,10 +55758,32 @@ var MainView = exports.MainView = function MainView() {
     element: /*#__PURE__*/React.createElement(React.Fragment, null, !user ? /*#__PURE__*/React.createElement(_reactRouterDom.Navigate, {
       to: "/login",
       replace: true
-    }) : /*#__PURE__*/React.createElement(_Col.default, {
+    }) : /*#__PURE__*/React.createElement(_Row.default, null, /*#__PURE__*/React.createElement(_Col.default, {
       md: 7,
       key: movie.id
-    }, /*#__PURE__*/React.createElement(_profileView.ProfileView, null)))
+    }, /*#__PURE__*/React.createElement(_profileView.ProfileView, {
+      className: "justify-content-md-left"
+    }))))
+  }), /*#__PURE__*/React.createElement(_reactRouterDom.Route, {
+    path: "/edit-profile",
+    element: /*#__PURE__*/React.createElement(React.Fragment, null, !user ? /*#__PURE__*/React.createElement(_reactRouterDom.Navigate, {
+      to: "/login",
+      replace: true
+    }) : /*#__PURE__*/React.createElement(_Row.default, null, /*#__PURE__*/React.createElement(_Col.default, {
+      md: 7,
+      key: movie.id
+    }, /*#__PURE__*/React.createElement(_profileUpdateView.ProfileUpdateView, {
+      user: user,
+      token: token,
+      movies: movie,
+      setUser: setUser,
+      className: "justify-content-md-left",
+      onLoggedOut: function onLoggedOut() {
+        setUser(null);
+        setToken(null);
+        localStorage.clear();
+      }
+    }))))
   }), /*#__PURE__*/React.createElement(_reactRouterDom.Route, {
     path: "/",
     element: /*#__PURE__*/React.createElement(React.Fragment, null, !user ? /*#__PURE__*/React.createElement(_reactRouterDom.Navigate, {
@@ -55446,7 +55797,10 @@ var MainView = exports.MainView = function MainView() {
         key: movie.id,
         md: 3
       }, /*#__PURE__*/React.createElement(_movieCard.MovieCard, {
-        movie: movie
+        movie: movie,
+        user: user,
+        token: token,
+        setUser: setUser
       }));
     })))
   }))))
@@ -55504,7 +55858,7 @@ var MainView = exports.MainView = function MainView() {
   // </>
   ;
 };
-},{"react":"../node_modules/react/index.js","../movie-card/movie-card":"../components/movie-card/movie-card.jsx","../movie-view/movie-view":"../components/movie-view/movie-view.jsx","../login-view/login-view":"../components/login-view/login-view.jsx","../signup-view/signup-view":"../components/signup-view/signup-view.jsx","../navigation-bar/navigation-bar":"../components/navigation-bar/navigation-bar.jsx","../profile/profile-view/profile-view":"../components/profile/profile-view/profile-view.jsx","react-router-dom":"../node_modules/react-router-dom/dist/index.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js"}],"index.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../movie-card/movie-card":"../components/movie-card/movie-card.jsx","../movie-view/movie-view":"../components/movie-view/movie-view.jsx","../login-view/login-view":"../components/login-view/login-view.jsx","../signup-view/signup-view":"../components/signup-view/signup-view.jsx","../navigation-bar/navigation-bar":"../components/navigation-bar/navigation-bar.jsx","../profile/profile-view/profile-view":"../components/profile/profile-view/profile-view.jsx","react-router-dom":"../node_modules/react-router-dom/dist/index.js","../profile/profile-update-view/profile-update-view":"../components/profile/profile-update-view/profile-update-view.jsx","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js"}],"index.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
@@ -55547,7 +55901,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50227" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50303" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

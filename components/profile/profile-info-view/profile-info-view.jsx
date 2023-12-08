@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { ProfileUpdateView } from "../profile-update-view/profile-update-view";
