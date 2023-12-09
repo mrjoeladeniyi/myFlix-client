@@ -1,4 +1,5 @@
 // Handle delete
+import React from "react";
 export const ProfileDeleteView = () => {
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);

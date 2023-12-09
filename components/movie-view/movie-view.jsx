@@ -1,3 +1,4 @@
+import React from "react";
 import "./movie-view.scss";
 import { Link, useParams } from "react-router-dom";
 export const MovieView = ({ movie }) => {
