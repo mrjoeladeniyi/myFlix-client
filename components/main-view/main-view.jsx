@@ -20,6 +20,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 export const MainView = () => {
   // get user and token from local storage
   const storedUser = JSON.parse(localStorage.getItem("user"));
+  
   const storedToken = localStorage.getItem("token");
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
@@ -52,6 +53,8 @@ export const MainView = () => {
         console.log(e);
       });
   }, [token]);
+
+  // console.log(user)
 
   return (
     <BrowserRouter>
@@ -134,7 +137,7 @@ export const MainView = () => {
                 ) : (
                   <Row>
                     <Col md={7} key={movie.id}>
-                      <ProfileUpdateView className="justify-content-md-left" />
+                      <ProfileUpdateView  {...user}  className="justify-content-md-left" />
                     </Col>
                   </Row>
                 )}
@@ -164,6 +167,7 @@ export const MainView = () => {
         </Routes>
       </Row>
     </BrowserRouter>
+  
 
     // <>
     //   <Row className="justify-content-md-center text">

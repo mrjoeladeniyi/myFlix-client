@@ -7,21 +7,17 @@ import Modal from "react-bootstrap/Modal";
 // TODO create handleEdit and handleDelete in ProfileView and pass them down as props to ProfileInfoView and ProfileDeleteView
 
 export const ProfileUpdateView = ({
-  username,
-  email,
-  password,
-  birth_date,
-  handleEdit,
-  token,
-}) => {
-  // const storedUser = JSON.parse(localStorage.getItem("user"));
-  // const storedToken = localStorage.getItem("token");
 
-  // const [user, setUser] = useState(storedUser ? storedUser : null);
-  // const [username, setUsername] = useState("username");
-  // const [password, setPassword] = useState("password");
-  // const [email, setEmail] = useState("email");
-  // const [token, setToken] = useState(storedToken ? storedToken : null);
+
+}) => {
+   const storedUser = JSON.parse(localStorage.getItem("user"));
+ const storedToken = localStorage.getItem("token");
+
+   const [user, setUser] = useState(storedUser ? storedUser : null);
+  const [currentUsername, setCurrentUsername] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [currentEmail, setCurrentEmail] = useState("");
+   const [token, setToken] = useState(storedToken ? storedToken : null);
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -30,13 +26,13 @@ export const ProfileUpdateView = ({
     // this prevents the default behavior of the form which is to reload the entire page
     event.preventDefault();
 
-    // const data = {
-    //   username: username,
-    //   password: password,
-    //   email: email,
-    // };
+    const data = {
+      username: currentUsername,
+      password: currentPassword,
+      email: currentEmail,
+    };
 
-    fetch(`https://myflix-movies-api.herokuapp.com/users/${user}`, {
+    fetch(`https://myflix-movies-api.herokuapp.com/users/${username}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +42,7 @@ export const ProfileUpdateView = ({
       .then((response) => {
         console.log(response);
         alert("Changes Saved");
-        localStorage.setItem("user", username);
+        localStorage.setItem("user", currentUsername);
         localStorage.setItem("token", token);
         localStorage.window.open("/");
       })
@@ -63,8 +59,8 @@ export const ProfileUpdateView = ({
           <Form.Label>Username:</Form.Label>
           <Form.Control
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={currentUsername}
+            onChange={(e) => setCurrentUsername(e.target.value)}
             required
             minLength="3"
             placeholder="Enter username"
@@ -75,8 +71,8 @@ export const ProfileUpdateView = ({
           <Form.Label>Password:</Form.Label>
           <Form.Control
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
             required
             style={{ color: "black", backgroundColor: "azure" }}
           />
@@ -85,8 +81,8 @@ export const ProfileUpdateView = ({
           <Form.Label>Email:</Form.Label>
           <Form.Control
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={currentEmail}
+            onChange={(e) => setCurrentEmail(e.target.value)}
             required
             style={{ color: "black", backgroundColor: "azure" }}
           />

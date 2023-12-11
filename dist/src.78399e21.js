@@ -55245,27 +55245,37 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure " + obj); }
 // TODO create handleEdit and handleDelete in ProfileView and pass them down as props to ProfileInfoView and ProfileDeleteView
 
 var ProfileUpdateView = exports.ProfileUpdateView = function ProfileUpdateView(_ref) {
-  var username = _ref.username,
-    email = _ref.email,
-    password = _ref.password,
-    birth_date = _ref.birth_date,
-    handleEdit = _ref.handleEdit,
-    token = _ref.token;
-  // const storedUser = JSON.parse(localStorage.getItem("user"));
-  // const storedToken = localStorage.getItem("token");
-
-  // const [user, setUser] = useState(storedUser ? storedUser : null);
-  // const [username, setUsername] = useState("username");
-  // const [password, setPassword] = useState("password");
-  // const [email, setEmail] = useState("email");
-  // const [token, setToken] = useState(storedToken ? storedToken : null);
-  var _useState = (0, _react.useState)(false),
+  _objectDestructuringEmpty(_ref);
+  var storedUser = JSON.parse(localStorage.getItem("user"));
+  var storedToken = localStorage.getItem("token");
+  var _useState = (0, _react.useState)(storedUser ? storedUser : null),
     _useState2 = _slicedToArray(_useState, 2),
-    show = _useState2[0],
-    setShow = _useState2[1];
+    user = _useState2[0],
+    setUser = _useState2[1];
+  var _useState3 = (0, _react.useState)(""),
+    _useState4 = _slicedToArray(_useState3, 2),
+    currentUsername = _useState4[0],
+    setCurrentUsername = _useState4[1];
+  var _useState5 = (0, _react.useState)(""),
+    _useState6 = _slicedToArray(_useState5, 2),
+    currentPassword = _useState6[0],
+    setCurrentPassword = _useState6[1];
+  var _useState7 = (0, _react.useState)(""),
+    _useState8 = _slicedToArray(_useState7, 2),
+    currentEmail = _useState8[0],
+    setCurrentEmail = _useState8[1];
+  var _useState9 = (0, _react.useState)(storedToken ? storedToken : null),
+    _useState10 = _slicedToArray(_useState9, 2),
+    token = _useState10[0],
+    setToken = _useState10[1];
+  var _useState11 = (0, _react.useState)(false),
+    _useState12 = _slicedToArray(_useState11, 2),
+    show = _useState12[0],
+    setShow = _useState12[1];
   var handleClose = function handleClose() {
     return setShow(false);
   };
@@ -55275,14 +55285,12 @@ var ProfileUpdateView = exports.ProfileUpdateView = function ProfileUpdateView(_
   var handleSubmit = function handleSubmit(event) {
     // this prevents the default behavior of the form which is to reload the entire page
     event.preventDefault();
-
-    // const data = {
-    //   username: username,
-    //   password: password,
-    //   email: email,
-    // };
-
-    fetch("https://myflix-movies-api.herokuapp.com/users/".concat(user), {
+    var data = {
+      username: currentUsername,
+      password: currentPassword,
+      email: currentEmail
+    };
+    fetch("https://myflix-movies-api.herokuapp.com/users/".concat(username), {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -55291,7 +55299,7 @@ var ProfileUpdateView = exports.ProfileUpdateView = function ProfileUpdateView(_
     }).then(function (response) {
       console.log(response);
       alert("Changes Saved");
-      localStorage.setItem("user", username);
+      localStorage.setItem("user", currentUsername);
       localStorage.setItem("token", token);
       localStorage.window.open("/");
     }).catch(function (error) {
@@ -55305,9 +55313,9 @@ var ProfileUpdateView = exports.ProfileUpdateView = function ProfileUpdateView(_
     as: "h2"
   }, "Edit Profile"), /*#__PURE__*/_react.default.createElement(_Form.default.Label, null, "Username:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
     type: "text",
-    value: username,
+    value: currentUsername,
     onChange: function onChange(e) {
-      return setUsername(e.target.value);
+      return setCurrentUsername(e.target.value);
     },
     required: true,
     minLength: "3",
@@ -55320,9 +55328,9 @@ var ProfileUpdateView = exports.ProfileUpdateView = function ProfileUpdateView(_
     className: "mb-2"
   }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, null, "Password:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
     type: "password",
-    value: password,
+    value: currentPassword,
     onChange: function onChange(e) {
-      return setPassword(e.target.value);
+      return setCurrentPassword(e.target.value);
     },
     required: true,
     style: {
@@ -55333,9 +55341,9 @@ var ProfileUpdateView = exports.ProfileUpdateView = function ProfileUpdateView(_
     className: "mb-2"
   }, /*#__PURE__*/_react.default.createElement(_Form.default.Label, null, "Email:"), /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
     type: "email",
-    value: email,
+    value: currentEmail,
     onChange: function onChange(e) {
-      return setEmail(e.target.value);
+      return setCurrentEmail(e.target.value);
     },
     required: true,
     style: {
@@ -55543,6 +55551,7 @@ var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -55596,6 +55605,9 @@ var MainView = exports.MainView = function MainView() {
       console.log(e);
     });
   }, [token]);
+
+  // console.log(user)
+
   return /*#__PURE__*/_react.default.createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react.default.createElement(_navigationBar.NavigationBar, {
     user: user,
     onLoggedOut: function onLoggedOut() {
@@ -55655,9 +55667,9 @@ var MainView = exports.MainView = function MainView() {
     }) : /*#__PURE__*/_react.default.createElement(_Row.default, null, /*#__PURE__*/_react.default.createElement(_Col.default, {
       md: 7,
       key: movie.id
-    }, /*#__PURE__*/_react.default.createElement(_profileUpdateView.ProfileUpdateView, {
+    }, /*#__PURE__*/_react.default.createElement(_profileUpdateView.ProfileUpdateView, _extends({}, user, {
       className: "justify-content-md-left"
-    }))))
+    })))))
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/",
     element: /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, !user ? /*#__PURE__*/_react.default.createElement(_reactRouterDom.Navigate, {
@@ -55773,7 +55785,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52580" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50045" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
